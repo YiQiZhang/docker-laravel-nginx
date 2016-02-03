@@ -27,8 +27,8 @@ RUN cd /software/nginx && \
 	--sbin-path=/usr/local/sbin \
 	--conf-path=/etc/nginx/nginx.conf \
 	--user=www --group=www \
-	--error-log-path=/var/log/nginx_error.log \
-	--http-log-path=/var/log/nginx_access.log \
+	--error-log-path=/var/log/nginx/error.log \
+	--http-log-path=/var/log/nginx/access.log \
 	--pid-path=/var/run/nginx.pid \
 	--with-pcre \
 	--with-http_ssl_module \
@@ -46,7 +46,7 @@ RUN apt-get clean \
 	&& apt-get autoclean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /software
 
-VOLUME [ "/data/www/website" ]
+VOLUME [ "/data/www/website" , "/var/log/nginx"]
 
 EXPOSE 80
 
