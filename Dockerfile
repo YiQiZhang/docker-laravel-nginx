@@ -6,7 +6,11 @@ ENV NGINX_SOURCE_DIR /software/nginx/
 
 RUN apt-get update && apt-get install -y \
 	gcc \
-	make
+	gcc-c++ \
+	make \
+	zlib-devel \
+	pcre-devel \
+	openssl-devel
 
 ADD software/nginx.tar.gz $NGINX_SOURCE_DIR 
 RUN cp -r $NGINX_SOURCE_DIR/nginx-*/* $NGINX_SOURCE_DIR
