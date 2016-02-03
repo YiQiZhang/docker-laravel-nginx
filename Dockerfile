@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
 	make
 
 ADD software/nginx.tar.gz $NGINX_SOURCE_DIR 
+RUN cp -r $NGINX_SOURCE_DIR/nginx-*/* $NGINX_SOURCE_DIR
 ADD conf/nginx.conf /etc/nginx/nginx.conf
 ADD conf/website.conf /etc/nginx/conf.d/
 
@@ -18,7 +19,7 @@ RUN groupadd -r www && \
 # install nginx
 RUN cd /software/nginx && \
 	./configure --prefix=/usr/local/nginx \
-	--user=www ---group=www \
+	--user=www --group=www \
 	--error-log-path=/var/log/nginx_error.log \
 	--http-log-path=/var/log/nginx_access.log \
 	--pid-path=/var/run/nginx.pid \
@@ -32,7 +33,7 @@ RUN cd /software/nginx && \
 
 RUN apt-get clean \
 	&& apt-get autoclean \
-	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* $NGINX_SOURCE_DIR
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /software
 
 VOME [ "/data/www/website" ]
 
