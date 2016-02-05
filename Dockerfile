@@ -2,7 +2,12 @@ FROM jerrytechtree/docker-laravel-base
 MAINTAINER Jerry Zhang "jerry_techtree@126.com"
 ENV REFRESHED_AT 2016-02-03
 
-ENV NGINX_SOURCE_DIR /software/nginx/
+ENV SOFTWARE_DIR /software
+ENV NGINX_VERSION 1.9.10
+ENV NGINX_TAR_FILENAME nginx-$NGINX_VERSION.tar.gz
+ENV NGINX_DOWNLOAD_URL http://nginx.org/download/$NGINX_TAR_FILENAME
+ENV NGINX_TAR_FILE $SOFTWARE_DIR/$NGINX_TAR_FILENAME
+ENV NGINX_SOURCE_DIR $SOFTWARE_DIR/nginx
 
 # install dependencies
 RUN apt-get update && apt-get install -y \
@@ -14,8 +19,10 @@ RUN apt-get update && apt-get install -y \
 	libpcre3-dev \
 	libssl-dev
 
-ADD software/nginx.tar.gz $NGINX_SOURCE_DIR 
-RUN cp -r $NGINX_SOURCE_DIR/nginx-*/* $NGINX_SOURCE_DIR
+RUN mkdir -p $SOFTWARE_DIR && \
+	curl -L $NGINX_DOWNLOAD_URL > $NGINX_TAR_FILE && \
+	tar -zxvf $NGINX_TAR_FILE -c $SOFTWARE_DIR && \
+	mv $SOFTWARE_DIR/nginx-$NGINX_VERSION $SOFTWARE_DIR
 
 # add user & group
 RUN groupadd -r www && \
