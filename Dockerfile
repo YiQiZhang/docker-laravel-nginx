@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
 	gcc \
 	g++ \
 	make \
+	curl \
 	zlib1g-dev \
 	libpcre3 \
 	libpcre3-dev \
