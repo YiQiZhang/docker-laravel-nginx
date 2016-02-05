@@ -20,10 +20,12 @@ RUN apt-get update && apt-get install -y \
 	libpcre3-dev \
 	libssl-dev
 
+# download nginx
+RUN echo $NGINX_DOWNLOAD_URL
 RUN mkdir -p $SOFTWARE_DIR && \
 	curl -L $NGINX_DOWNLOAD_URL > $NGINX_TAR_FILE && \
-	tar -zxvf $NGINX_TAR_FILE -c $SOFTWARE_DIR && \
-	mv $SOFTWARE_DIR/nginx-$NGINX_VERSION $SOFTWARE_DIR
+	tar -zxvf $NGINX_TAR_FILE -C $SOFTWARE_DIR && \
+	mv $SOFTWARE_DIR/nginx-$NGINX_VERSION $NGINX_SOURCE_DIR
 
 # add user & group
 RUN groupadd -r www && \
